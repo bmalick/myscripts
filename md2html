@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if ! command -v pandoc &> /dev/null; then
+    echo "Error: pandoc is not installed. Install it first."
+fi
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: md2html input.md"
+fi
+
+# Download CSS if not present
+CSS_FILE="github-markdown.css"
+if [ ! -f "$CSS_FILE" ]; then
+    echo "Downloading $CSS_FILE..."
+    curl -s -O https://raw.githubusercontent.com/sindresorhus/github-markdown-css/main/github-markdown.css
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to download $CSS_FILE."
+    fi
+fi
+
+input="$1"
+output="${2:-${input%.md}.html}"
+
+pandoc "$input" -s -o "$output" \
+  --css="$CSS_FILE" \
+  -H <(echo '<meta name="viewport" content="width=device-width, initial-scale=1">') \
+  -V geometry=margin=1in \
+  -V pagetitle="Document" \
+  -c "$CSS_FILE" \
+  --from=gfm
+
