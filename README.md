@@ -1,6 +1,5 @@
 # My Custom Bash Scripts
 
-Gathering some of commands I use in my daily life and at work. Yes this is a bit of lazyness.
 A collection of small Bash scripts I use in my daily life and at work.  
 Yes, it's a bit of laziness - but the good kind.
 
